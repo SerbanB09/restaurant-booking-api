@@ -81,6 +81,11 @@ export type areas = Prisma.areasModel
  */
 export type tables = Prisma.tablesModel
 /**
+ * Model customers
+ * 
+ */
+export type customers = Prisma.customersModel
+/**
  * Model bookings
  * 
  */

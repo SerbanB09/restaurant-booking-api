@@ -39,15 +39,27 @@ export const updateOne = asyncHandler(async (req, res) => {
         throw new AppError('Forbidden', 403);
     }
 
-    // account_id and roles can never be set by the client directly;
-    // roles may only be changed by an admin, handled explicitly below.
-    let { password, account_id, roles, ...data } = req.body;
+    const existingUser = await prisma.users.findUnique({
+        where: { id: req.params.id, account_id: req.user.account_id }
+    });
+
+    if (!existingUser) {
+        throw new AppError('User not found', 404);
+    }
+
+    // account_id, is_owner and roles can never be set by the client directly;
+    // roles may only be changed by an admin, handled explicitly below, and
+    // never for the account owner.
+    let { password, account_id, roles, is_owner, ...data } = req.body;
 
     if (password) {
         data.password = await bcrypt.hash(password, 10);
     }
 
     if (roles && isAdmin(req)) {
+        if (existingUser.is_owner) {
+            throw new AppError("The account owner's role cannot be changed", 403);
+        }
         data.roles = roles;
     }
 
@@ -64,12 +76,24 @@ export const updateOne = asyncHandler(async (req, res) => {
 });
 
 export const deleteOne = asyncHandler(async (req, res) => {
+    if (!isAdmin(req)) {
+        throw new AppError('Only admins can remove staff members', 403);
+    }
+
+    if (req.params.id === req.user.id) {
+        throw new AppError('You cannot remove your own account', 400);
+    }
+
     const existingUser = await prisma.users.findUnique({
         where: { id: req.params.id, account_id: req.user.account_id }
     });
 
     if (!existingUser) {
         throw new AppError('User not found', 404);
+    }
+
+    if (existingUser.is_owner) {
+        throw new AppError('The account owner cannot be removed', 403);
     }
 
     await prisma.users.delete({
@@ -80,7 +104,11 @@ export const deleteOne = asyncHandler(async (req, res) => {
 });
 
 export const createOne = asyncHandler(async (req, res) => {
-    const { password, roles, ...rest_of_data } = req.body;
+    if (!isAdmin(req)) {
+        throw new AppError('Only admins can add staff members', 403);
+    }
+
+    const { password, roles, account_id, ...rest_of_data } = req.body;
 
     if (!password || typeof password !== 'string') {
         throw new AppError('Password is required', 400);
@@ -88,10 +116,13 @@ export const createOne = asyncHandler(async (req, res) => {
 
     const hashed_password = await bcrypt.hash(password, 10);
 
+    const allowedRoles = Array.isArray(roles) && roles.length > 0 ? roles : ['member'];
+
     const user = await prisma.users.create({
         data: {
             ...rest_of_data,
-            roles: ['member'],
+            account_id: req.user.account_id,
+            roles: allowedRoles,
             password: hashed_password
         }
     }).catch((err) => {
@@ -119,7 +150,8 @@ export const login = asyncHandler(async (req, res) => {
         throw new AppError('Invalid email or password', 401);
     }
 
-    const token = jwt.sign({ id: user.id, account_id: user.account_id, roles: user.roles },
+    const token = jwt.sign(
+        { id: user.id, account_id: user.account_id, roles: user.roles, type: 'staff' },
         process.env.JWT_SECRET as string,
         { expiresIn: '1d' }
     );

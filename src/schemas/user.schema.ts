@@ -9,11 +9,11 @@ export const loginSchema = z.object({
 
 export const createUserSchema = z.object({
     body: z.object({
-        account_id: z.string().min(1, 'account_id is required'),
         first_name: z.string().min(1, 'first_name is required'),
         last_name: z.string().min(1, 'last_name is required'),
         email: z.email('Invalid email'),
-        password: z.string().min(6, 'Password must contain minimum 6 characters')
+        password: z.string().min(6, 'Password must contain minimum 6 characters'),
+        roles: z.array(z.enum(['admin', 'member'])).optional()
     })
 });
 

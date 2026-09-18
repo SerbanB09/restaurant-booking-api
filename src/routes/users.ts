@@ -6,14 +6,14 @@ import { loginSchema, createUserSchema, updateUserSchema } from '../schemas/user
 
 const router = Router();
 
-// Public routes
 router.post('/login', validate(loginSchema), login);
-router.post('/', validate(createUserSchema), createOne);
 
-// Protected routes
-router.get('/', authenticate, findMany);
-router.get('/:id', authenticate, getOne);
-router.put('/:id', authenticate, validate(updateUserSchema), updateOne);
-router.delete('/:id', authenticate, deleteOne);
+router.use(authenticate);
+
+router.post('/', validate(createUserSchema), createOne);
+router.get('/', findMany);
+router.get('/:id', getOne);
+router.put('/:id', validate(updateUserSchema), updateOne);
+router.delete('/:id', deleteOne);
 
 export default router;

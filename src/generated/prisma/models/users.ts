@@ -26,6 +26,7 @@ export type AggregateUsers = {
 
 export type UsersMinAggregateOutputType = {
   id: string | null
+  is_owner: boolean | null
   account_id: string | null
   first_name: string | null
   last_name: string | null
@@ -37,6 +38,7 @@ export type UsersMinAggregateOutputType = {
 
 export type UsersMaxAggregateOutputType = {
   id: string | null
+  is_owner: boolean | null
   account_id: string | null
   first_name: string | null
   last_name: string | null
@@ -48,6 +50,7 @@ export type UsersMaxAggregateOutputType = {
 
 export type UsersCountAggregateOutputType = {
   id: number
+  is_owner: number
   account_id: number
   first_name: number
   last_name: number
@@ -62,6 +65,7 @@ export type UsersCountAggregateOutputType = {
 
 export type UsersMinAggregateInputType = {
   id?: true
+  is_owner?: true
   account_id?: true
   first_name?: true
   last_name?: true
@@ -73,6 +77,7 @@ export type UsersMinAggregateInputType = {
 
 export type UsersMaxAggregateInputType = {
   id?: true
+  is_owner?: true
   account_id?: true
   first_name?: true
   last_name?: true
@@ -84,6 +89,7 @@ export type UsersMaxAggregateInputType = {
 
 export type UsersCountAggregateInputType = {
   id?: true
+  is_owner?: true
   account_id?: true
   first_name?: true
   last_name?: true
@@ -169,6 +175,7 @@ export type usersGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type UsersGroupByOutputType = {
   id: string
+  is_owner: boolean
   account_id: string
   first_name: string
   last_name: string
@@ -202,6 +209,7 @@ export type usersWhereInput = {
   OR?: Prisma.usersWhereInput[]
   NOT?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
   id?: Prisma.StringFilter<"users"> | string
+  is_owner?: Prisma.BoolFilter<"users"> | boolean
   account_id?: Prisma.StringFilter<"users"> | string
   first_name?: Prisma.StringFilter<"users"> | string
   last_name?: Prisma.StringFilter<"users"> | string
@@ -214,6 +222,7 @@ export type usersWhereInput = {
 
 export type usersOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  is_owner?: Prisma.SortOrder
   account_id?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
@@ -230,6 +239,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
   OR?: Prisma.usersWhereInput[]
   NOT?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
+  is_owner?: Prisma.BoolFilter<"users"> | boolean
   account_id?: Prisma.StringFilter<"users"> | string
   first_name?: Prisma.StringFilter<"users"> | string
   last_name?: Prisma.StringFilter<"users"> | string
@@ -241,6 +251,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
 
 export type usersOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  is_owner?: Prisma.SortOrder
   account_id?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
@@ -259,6 +270,7 @@ export type usersScalarWhereWithAggregatesInput = {
   OR?: Prisma.usersScalarWhereWithAggregatesInput[]
   NOT?: Prisma.usersScalarWhereWithAggregatesInput | Prisma.usersScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"users"> | string
+  is_owner?: Prisma.BoolWithAggregatesFilter<"users"> | boolean
   account_id?: Prisma.StringWithAggregatesFilter<"users"> | string
   first_name?: Prisma.StringWithAggregatesFilter<"users"> | string
   last_name?: Prisma.StringWithAggregatesFilter<"users"> | string
@@ -271,6 +283,7 @@ export type usersScalarWhereWithAggregatesInput = {
 
 export type usersCreateInput = {
   id?: string
+  is_owner?: boolean
   account_id: string
   first_name: string
   last_name: string
@@ -283,6 +296,7 @@ export type usersCreateInput = {
 
 export type usersUncheckedCreateInput = {
   id?: string
+  is_owner?: boolean
   account_id: string
   first_name: string
   last_name: string
@@ -294,6 +308,7 @@ export type usersUncheckedCreateInput = {
 }
 
 export type usersUpdateInput = {
+  is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   account_id?: Prisma.StringFieldUpdateOperationsInput | string
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -305,6 +320,7 @@ export type usersUpdateInput = {
 }
 
 export type usersUncheckedUpdateInput = {
+  is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   account_id?: Prisma.StringFieldUpdateOperationsInput | string
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -317,6 +333,7 @@ export type usersUncheckedUpdateInput = {
 
 export type usersCreateManyInput = {
   id?: string
+  is_owner?: boolean
   account_id: string
   first_name: string
   last_name: string
@@ -328,6 +345,7 @@ export type usersCreateManyInput = {
 }
 
 export type usersUpdateManyMutationInput = {
+  is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   account_id?: Prisma.StringFieldUpdateOperationsInput | string
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -339,6 +357,7 @@ export type usersUpdateManyMutationInput = {
 }
 
 export type usersUncheckedUpdateManyInput = {
+  is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   account_id?: Prisma.StringFieldUpdateOperationsInput | string
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -359,6 +378,7 @@ export type StringNullableListFilter<$PrismaModel = never> = {
 
 export type usersCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  is_owner?: Prisma.SortOrder
   account_id?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
@@ -371,6 +391,7 @@ export type usersCountOrderByAggregateInput = {
 
 export type usersMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  is_owner?: Prisma.SortOrder
   account_id?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
@@ -382,6 +403,7 @@ export type usersMaxOrderByAggregateInput = {
 
 export type usersMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  is_owner?: Prisma.SortOrder
   account_id?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
@@ -395,6 +417,10 @@ export type usersCreaterolesInput = {
   set: string[]
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type usersUpdaterolesInput = {
   set?: string[]
   push?: string | string[]
@@ -404,6 +430,7 @@ export type usersUpdaterolesInput = {
 
 export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  is_owner?: boolean
   account_id?: boolean
   first_name?: boolean
   last_name?: boolean
@@ -418,6 +445,7 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 
 export type usersSelectScalar = {
   id?: boolean
+  is_owner?: boolean
   account_id?: boolean
   first_name?: boolean
   last_name?: boolean
@@ -428,13 +456,14 @@ export type usersSelectScalar = {
   updated_at?: boolean
 }
 
-export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "account_id" | "first_name" | "last_name" | "email" | "password" | "roles" | "created_at" | "updated_at", ExtArgs["result"]["users"]>
+export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "is_owner" | "account_id" | "first_name" | "last_name" | "email" | "password" | "roles" | "created_at" | "updated_at", ExtArgs["result"]["users"]>
 
 export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "users"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    is_owner: boolean
     account_id: string
     first_name: string
     last_name: string
@@ -836,6 +865,7 @@ export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface usersFieldRefs {
   readonly id: Prisma.FieldRef<"users", 'String'>
+  readonly is_owner: Prisma.FieldRef<"users", 'Boolean'>
   readonly account_id: Prisma.FieldRef<"users", 'String'>
   readonly first_name: Prisma.FieldRef<"users", 'String'>
   readonly last_name: Prisma.FieldRef<"users", 'String'>

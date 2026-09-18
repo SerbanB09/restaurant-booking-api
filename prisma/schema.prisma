@@ -18,6 +18,7 @@ model accounts {
 
 model users {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  is_owner   Boolean  @default(false)
   account_id String
   first_name String
   last_name  String
@@ -61,12 +62,26 @@ model tables {
   position_y    Float
 }
 
+model customers {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  first_name String
+  last_name  String
+  email      String   @unique
+  phone      String?
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
 model bookings {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  user_id      String
+  user_id      String?
+  customer_id  String?
   venue_id     String
   table_id     String
   person_count Int
   date         DateTime
   note         String?
+  guest_name   String?
+  guest_phone  String?
 }

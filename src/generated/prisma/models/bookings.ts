@@ -37,31 +37,40 @@ export type BookingsSumAggregateOutputType = {
 export type BookingsMinAggregateOutputType = {
   id: string | null
   user_id: string | null
+  customer_id: string | null
   venue_id: string | null
   table_id: string | null
   person_count: number | null
   date: Date | null
   note: string | null
+  guest_name: string | null
+  guest_phone: string | null
 }
 
 export type BookingsMaxAggregateOutputType = {
   id: string | null
   user_id: string | null
+  customer_id: string | null
   venue_id: string | null
   table_id: string | null
   person_count: number | null
   date: Date | null
   note: string | null
+  guest_name: string | null
+  guest_phone: string | null
 }
 
 export type BookingsCountAggregateOutputType = {
   id: number
   user_id: number
+  customer_id: number
   venue_id: number
   table_id: number
   person_count: number
   date: number
   note: number
+  guest_name: number
+  guest_phone: number
   _all: number
 }
 
@@ -77,31 +86,40 @@ export type BookingsSumAggregateInputType = {
 export type BookingsMinAggregateInputType = {
   id?: true
   user_id?: true
+  customer_id?: true
   venue_id?: true
   table_id?: true
   person_count?: true
   date?: true
   note?: true
+  guest_name?: true
+  guest_phone?: true
 }
 
 export type BookingsMaxAggregateInputType = {
   id?: true
   user_id?: true
+  customer_id?: true
   venue_id?: true
   table_id?: true
   person_count?: true
   date?: true
   note?: true
+  guest_name?: true
+  guest_phone?: true
 }
 
 export type BookingsCountAggregateInputType = {
   id?: true
   user_id?: true
+  customer_id?: true
   venue_id?: true
   table_id?: true
   person_count?: true
   date?: true
   note?: true
+  guest_name?: true
+  guest_phone?: true
   _all?: true
 }
 
@@ -193,12 +211,15 @@ export type bookingsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type BookingsGroupByOutputType = {
   id: string
-  user_id: string
+  user_id: string | null
+  customer_id: string | null
   venue_id: string
   table_id: string
   person_count: number
   date: Date
   note: string | null
+  guest_name: string | null
+  guest_phone: string | null
   _count: BookingsCountAggregateOutputType | null
   _avg: BookingsAvgAggregateOutputType | null
   _sum: BookingsSumAggregateOutputType | null
@@ -226,22 +247,28 @@ export type bookingsWhereInput = {
   OR?: Prisma.bookingsWhereInput[]
   NOT?: Prisma.bookingsWhereInput | Prisma.bookingsWhereInput[]
   id?: Prisma.StringFilter<"bookings"> | string
-  user_id?: Prisma.StringFilter<"bookings"> | string
+  user_id?: Prisma.StringNullableFilter<"bookings"> | string | null
+  customer_id?: Prisma.StringNullableFilter<"bookings"> | string | null
   venue_id?: Prisma.StringFilter<"bookings"> | string
   table_id?: Prisma.StringFilter<"bookings"> | string
   person_count?: Prisma.IntFilter<"bookings"> | number
   date?: Prisma.DateTimeFilter<"bookings"> | Date | string
   note?: Prisma.StringNullableFilter<"bookings"> | string | null
+  guest_name?: Prisma.StringNullableFilter<"bookings"> | string | null
+  guest_phone?: Prisma.StringNullableFilter<"bookings"> | string | null
 }
 
 export type bookingsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   venue_id?: Prisma.SortOrder
   table_id?: Prisma.SortOrder
   person_count?: Prisma.SortOrder
   date?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  guest_name?: Prisma.SortOrder
+  guest_phone?: Prisma.SortOrder
 }
 
 export type bookingsWhereUniqueInput = Prisma.AtLeast<{
@@ -249,22 +276,28 @@ export type bookingsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.bookingsWhereInput | Prisma.bookingsWhereInput[]
   OR?: Prisma.bookingsWhereInput[]
   NOT?: Prisma.bookingsWhereInput | Prisma.bookingsWhereInput[]
-  user_id?: Prisma.StringFilter<"bookings"> | string
+  user_id?: Prisma.StringNullableFilter<"bookings"> | string | null
+  customer_id?: Prisma.StringNullableFilter<"bookings"> | string | null
   venue_id?: Prisma.StringFilter<"bookings"> | string
   table_id?: Prisma.StringFilter<"bookings"> | string
   person_count?: Prisma.IntFilter<"bookings"> | number
   date?: Prisma.DateTimeFilter<"bookings"> | Date | string
   note?: Prisma.StringNullableFilter<"bookings"> | string | null
+  guest_name?: Prisma.StringNullableFilter<"bookings"> | string | null
+  guest_phone?: Prisma.StringNullableFilter<"bookings"> | string | null
 }, "id">
 
 export type bookingsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   venue_id?: Prisma.SortOrder
   table_id?: Prisma.SortOrder
   person_count?: Prisma.SortOrder
   date?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  guest_name?: Prisma.SortOrder
+  guest_phone?: Prisma.SortOrder
   _count?: Prisma.bookingsCountOrderByAggregateInput
   _avg?: Prisma.bookingsAvgOrderByAggregateInput
   _max?: Prisma.bookingsMaxOrderByAggregateInput
@@ -277,88 +310,115 @@ export type bookingsScalarWhereWithAggregatesInput = {
   OR?: Prisma.bookingsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.bookingsScalarWhereWithAggregatesInput | Prisma.bookingsScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"bookings"> | string
-  user_id?: Prisma.StringWithAggregatesFilter<"bookings"> | string
+  user_id?: Prisma.StringNullableWithAggregatesFilter<"bookings"> | string | null
+  customer_id?: Prisma.StringNullableWithAggregatesFilter<"bookings"> | string | null
   venue_id?: Prisma.StringWithAggregatesFilter<"bookings"> | string
   table_id?: Prisma.StringWithAggregatesFilter<"bookings"> | string
   person_count?: Prisma.IntWithAggregatesFilter<"bookings"> | number
   date?: Prisma.DateTimeWithAggregatesFilter<"bookings"> | Date | string
   note?: Prisma.StringNullableWithAggregatesFilter<"bookings"> | string | null
+  guest_name?: Prisma.StringNullableWithAggregatesFilter<"bookings"> | string | null
+  guest_phone?: Prisma.StringNullableWithAggregatesFilter<"bookings"> | string | null
 }
 
 export type bookingsCreateInput = {
   id?: string
-  user_id: string
+  user_id?: string | null
+  customer_id?: string | null
   venue_id: string
   table_id: string
   person_count: number
   date: Date | string
   note?: string | null
+  guest_name?: string | null
+  guest_phone?: string | null
 }
 
 export type bookingsUncheckedCreateInput = {
   id?: string
-  user_id: string
+  user_id?: string | null
+  customer_id?: string | null
   venue_id: string
   table_id: string
   person_count: number
   date: Date | string
   note?: string | null
+  guest_name?: string | null
+  guest_phone?: string | null
 }
 
 export type bookingsUpdateInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venue_id?: Prisma.StringFieldUpdateOperationsInput | string
   table_id?: Prisma.StringFieldUpdateOperationsInput | string
   person_count?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guest_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guest_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type bookingsUncheckedUpdateInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venue_id?: Prisma.StringFieldUpdateOperationsInput | string
   table_id?: Prisma.StringFieldUpdateOperationsInput | string
   person_count?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guest_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guest_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type bookingsCreateManyInput = {
   id?: string
-  user_id: string
+  user_id?: string | null
+  customer_id?: string | null
   venue_id: string
   table_id: string
   person_count: number
   date: Date | string
   note?: string | null
+  guest_name?: string | null
+  guest_phone?: string | null
 }
 
 export type bookingsUpdateManyMutationInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venue_id?: Prisma.StringFieldUpdateOperationsInput | string
   table_id?: Prisma.StringFieldUpdateOperationsInput | string
   person_count?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guest_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guest_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type bookingsUncheckedUpdateManyInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venue_id?: Prisma.StringFieldUpdateOperationsInput | string
   table_id?: Prisma.StringFieldUpdateOperationsInput | string
   person_count?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guest_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guest_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type bookingsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   venue_id?: Prisma.SortOrder
   table_id?: Prisma.SortOrder
   person_count?: Prisma.SortOrder
   date?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  guest_name?: Prisma.SortOrder
+  guest_phone?: Prisma.SortOrder
 }
 
 export type bookingsAvgOrderByAggregateInput = {
@@ -368,30 +428,31 @@ export type bookingsAvgOrderByAggregateInput = {
 export type bookingsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   venue_id?: Prisma.SortOrder
   table_id?: Prisma.SortOrder
   person_count?: Prisma.SortOrder
   date?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  guest_name?: Prisma.SortOrder
+  guest_phone?: Prisma.SortOrder
 }
 
 export type bookingsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   venue_id?: Prisma.SortOrder
   table_id?: Prisma.SortOrder
   person_count?: Prisma.SortOrder
   date?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  guest_name?: Prisma.SortOrder
+  guest_phone?: Prisma.SortOrder
 }
 
 export type bookingsSumOrderByAggregateInput = {
   person_count?: Prisma.SortOrder
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-  unset?: boolean
 }
 
 
@@ -399,11 +460,14 @@ export type NullableStringFieldUpdateOperationsInput = {
 export type bookingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   user_id?: boolean
+  customer_id?: boolean
   venue_id?: boolean
   table_id?: boolean
   person_count?: boolean
   date?: boolean
   note?: boolean
+  guest_name?: boolean
+  guest_phone?: boolean
 }, ExtArgs["result"]["bookings"]>
 
 
@@ -411,26 +475,32 @@ export type bookingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type bookingsSelectScalar = {
   id?: boolean
   user_id?: boolean
+  customer_id?: boolean
   venue_id?: boolean
   table_id?: boolean
   person_count?: boolean
   date?: boolean
   note?: boolean
+  guest_name?: boolean
+  guest_phone?: boolean
 }
 
-export type bookingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "venue_id" | "table_id" | "person_count" | "date" | "note", ExtArgs["result"]["bookings"]>
+export type bookingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "customer_id" | "venue_id" | "table_id" | "person_count" | "date" | "note" | "guest_name" | "guest_phone", ExtArgs["result"]["bookings"]>
 
 export type $bookingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "bookings"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    user_id: string
+    user_id: string | null
+    customer_id: string | null
     venue_id: string
     table_id: string
     person_count: number
     date: Date
     note: string | null
+    guest_name: string | null
+    guest_phone: string | null
   }, ExtArgs["result"]["bookings"]>
   composites: {}
 }
@@ -825,11 +895,14 @@ export interface Prisma__bookingsClient<T, Null = never, ExtArgs extends runtime
 export interface bookingsFieldRefs {
   readonly id: Prisma.FieldRef<"bookings", 'String'>
   readonly user_id: Prisma.FieldRef<"bookings", 'String'>
+  readonly customer_id: Prisma.FieldRef<"bookings", 'String'>
   readonly venue_id: Prisma.FieldRef<"bookings", 'String'>
   readonly table_id: Prisma.FieldRef<"bookings", 'String'>
   readonly person_count: Prisma.FieldRef<"bookings", 'Int'>
   readonly date: Prisma.FieldRef<"bookings", 'DateTime'>
   readonly note: Prisma.FieldRef<"bookings", 'String'>
+  readonly guest_name: Prisma.FieldRef<"bookings", 'String'>
+  readonly guest_phone: Prisma.FieldRef<"bookings", 'String'>
 }
     
 

@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { findMany, getOne, updateOne, deleteOne, createOne } from '../controllers/accounts';
+import { findMany, getOne, updateOne, deleteOne, createOne, registerAccount } from '../controllers/accounts';
 import { validate } from '../middlewares/validate';
 import { authenticate } from '../middlewares/auth.middleware';
-import { createAccountSchema, updateAccountSchema } from '../schemas/account.schema';
+import { createAccountSchema, updateAccountSchema, registerAccountSchema } from '../schemas/account.schema';
 
 const router = Router();
 
+router.post('/register', validate(registerAccountSchema), registerAccount);
 router.post('/', validate(createAccountSchema), createOne);
 router.get('/', authenticate, findMany);
 router.get('/:id', authenticate, getOne);

@@ -55,6 +55,7 @@ export const ModelName = {
   table_types: 'table_types',
   areas: 'areas',
   tables: 'tables',
+  customers: 'customers',
   bookings: 'bookings'
 } as const
 
@@ -76,6 +77,7 @@ export type AccountsScalarFieldEnum = (typeof AccountsScalarFieldEnum)[keyof typ
 
 export const UsersScalarFieldEnum = {
   id: 'id',
+  is_owner: 'is_owner',
   account_id: 'account_id',
   first_name: 'first_name',
   last_name: 'last_name',
@@ -134,14 +136,31 @@ export const TablesScalarFieldEnum = {
 export type TablesScalarFieldEnum = (typeof TablesScalarFieldEnum)[keyof typeof TablesScalarFieldEnum]
 
 
+export const CustomersScalarFieldEnum = {
+  id: 'id',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  email: 'email',
+  phone: 'phone',
+  password: 'password',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type CustomersScalarFieldEnum = (typeof CustomersScalarFieldEnum)[keyof typeof CustomersScalarFieldEnum]
+
+
 export const BookingsScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
+  customer_id: 'customer_id',
   venue_id: 'venue_id',
   table_id: 'table_id',
   person_count: 'person_count',
   date: 'date',
-  note: 'note'
+  note: 'note',
+  guest_name: 'guest_name',
+  guest_phone: 'guest_phone'
 } as const
 
 export type BookingsScalarFieldEnum = (typeof BookingsScalarFieldEnum)[keyof typeof BookingsScalarFieldEnum]

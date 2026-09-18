@@ -2,6 +2,8 @@ import {prisma} from "../manager/prisma";
 import { asyncHandler } from "../utils/asyncHandler";
 import { AppError } from "../errors/AppError";
 import express from "express";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export const findMany = asyncHandler(async (req, res) => {
     const account = await prisma.accounts.findUnique({
@@ -66,4 +68,45 @@ export const createOne = asyncHandler(async (req, res) => {
     });
 
     res.status(201).send(account);
+});
+
+export const registerAccount = asyncHandler(async (req, res) => {
+    const { restaurant_name, first_name, last_name, email, password } = req.body;
+
+    const existing = await prisma.users.findUnique({ where: { email } });
+    if (existing) {
+        throw new AppError('An account with this email already exists', 409);
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const result = await prisma.$transaction(async (tx) => {
+        const account = await tx.accounts.create({
+            data: { name: restaurant_name }
+        });
+
+        const user = await tx.users.create({
+            data: {
+                account_id: account.id,
+                first_name,
+                last_name,
+                email,
+                password: hashedPassword,
+                roles: ['admin', 'member'],
+                is_owner: true
+            }
+        });
+
+        return { account, user };
+    });
+
+    const token = jwt.sign(
+        { id: result.user.id, account_id: result.account.id, roles: result.user.roles, type: 'staff' },
+        process.env.JWT_SECRET as string,
+        { expiresIn: '1d' }
+    );
+
+    const { password: _pw, ...userWithoutPassword } = result.user;
+
+    res.status(201).send({ token, account: result.account, user: userWithoutPassword });
 });

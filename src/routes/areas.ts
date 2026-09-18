@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { findMany, getOne, updateOne, deleteOne, createOne } from '../controllers/areas';
+import {findMany, getOne, updateOne, deleteOne, createOne, getFloorPlan} from '../controllers/areas';
 import { validate } from '../middlewares/validate';
 import { authenticate } from '../middlewares/auth.middleware';
 import { createAreaSchema, updateAreaSchema } from '../schemas/area.schema';
@@ -13,5 +13,6 @@ router.get('/', findMany);
 router.get('/:id', getOne);
 router.patch('/:id', validate(updateAreaSchema), updateOne);
 router.delete('/:id', deleteOne);
+router.get('/:id/floor-plan', getFloorPlan);
 
 export default router;

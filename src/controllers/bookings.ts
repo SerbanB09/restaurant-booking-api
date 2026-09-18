@@ -4,12 +4,16 @@ import { AppError } from "../errors/AppError";
 
 const BOOKING_DURATION_MS = 2 * 60 * 60 * 1000;
 
-async function getAccountAreaIds(account_id: string): Promise<string[]> {
+async function getAccountVenueIds(account_id: string): Promise<string[]> {
     const venues = await prisma.venues.findMany({
         where: { account_id },
         select: { id: true }
     });
-    const venueIds = venues.map(v => v.id);
+    return venues.map(v => v.id);
+}
+
+async function getAccountAreaIds(account_id: string): Promise<string[]> {
+    const venueIds = await getAccountVenueIds(account_id);
 
     const areas = await prisma.areas.findMany({
         where: { venue_id: { in: venueIds } },
@@ -35,22 +39,24 @@ async function hasConflict(table_id: string, date: Date, excludeBookingId?: stri
 }
 
 export const findMany = asyncHandler(async (req, res) => {
+    const venueIds = await getAccountVenueIds(req.user.account_id);
+
     const bookings = await prisma.bookings.findMany({
-        where: { user_id: req.user.id }
+        where: { venue_id: { in: venueIds } },
+        orderBy: { date: 'asc' }
     });
 
     res.status(200).send(bookings);
 });
 
 export const getOne = asyncHandler(async (req, res) => {
+    const venueIds = await getAccountVenueIds(req.user.account_id);
+
     const booking = await prisma.bookings.findUnique({
-        where: {
-            id: req.params.id,
-            user_id: req.user.id
-        }
+        where: { id: req.params.id }
     });
 
-    if (!booking) {
+    if (!booking || !venueIds.includes(booking.venue_id)) {
         throw new AppError('Booking not found', 404);
     }
 
@@ -58,16 +64,15 @@ export const getOne = asyncHandler(async (req, res) => {
 });
 
 export const updateOne = asyncHandler(async (req, res) => {
-    const data = req.body;
+    const { user_id, customer_id, ...data } = req.body;
+
+    const venueIds = await getAccountVenueIds(req.user.account_id);
 
     const existing = await prisma.bookings.findUnique({
-        where: {
-            id: req.params.id,
-            user_id: req.user.id
-        }
+        where: { id: req.params.id }
     });
 
-    if (!existing) {
+    if (!existing || !venueIds.includes(existing.venue_id)) {
         throw new AppError('Booking not found', 404);
     }
 
@@ -82,10 +87,7 @@ export const updateOne = asyncHandler(async (req, res) => {
     }
 
     const booking = await prisma.bookings.update({
-        where: {
-            id: req.params.id,
-            user_id: req.user.id
-        },
+        where: { id: req.params.id },
         data
     });
 
@@ -93,22 +95,25 @@ export const updateOne = asyncHandler(async (req, res) => {
 });
 
 export const deleteOne = asyncHandler(async (req, res) => {
-    const booking = await prisma.bookings.delete({
-        where: {
-            id: req.params.id,
-            user_id: req.user.id
-        }
-    }).catch(() => null);
+    const venueIds = await getAccountVenueIds(req.user.account_id);
 
-    if (!booking) {
+    const existing = await prisma.bookings.findUnique({
+        where: { id: req.params.id }
+    });
+
+    if (!existing || !venueIds.includes(existing.venue_id)) {
         throw new AppError('Booking not found', 404);
     }
+
+    await prisma.bookings.delete({
+        where: { id: req.params.id }
+    });
 
     res.status(204).send();
 });
 
 export const createOne = asyncHandler(async (req, res) => {
-    const { user_id, ...rest_of_data } = req.body;
+    const { user_id, customer_id, ...rest_of_data } = req.body;
 
     const areaIds = await getAccountAreaIds(req.user.account_id);
 
